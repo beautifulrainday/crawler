@@ -7,6 +7,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.net.URLDecoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,18 +38,22 @@ public class Test2 {
 
         //TODO 下面的代码就是对字符串的操作了,常规的爬虫操作,用到了比较好用的Jsoup库
 
+        Pattern p = Pattern.compile("fluency=.*action");
+        Matcher matcher = p.matcher(pageXml);
+        String r = null;
+        while (matcher.find()) {
+            r = matcher.group();
+        }
+
         Document document = Jsoup.parse(pageXml);//获取html文档
         String res = document.title().split(" ")[0];
-
-        Pattern p = Pattern.compile("video-sources=.*action");
-        Matcher matcher = p.matcher(pageXml);
-        /*boolean bool = matcher.matches();
-        if(!bool){
-            return;
-        }*/
-        String r = matcher.group();
         System.out.println("title:" + res);
-        System.out.println("videoSrc:" + r);
+
+        StringBuilder sb = new StringBuilder(r);
+        CharSequence charSequence = sb.subSequence(0, r.length() - 13);
+        String ch = charSequence.toString();
+        r = URLDecoder.decode(ch);
+        System.out.println(r.substring(8, r.length()));
        /* List<Element> infoListEle = document.getElementById("feedCardContent").getElementsByAttributeValue("class", "feed-card-item");//获取元素节点等
         infoListEle.forEach(element -> {
             System.out.println(element.getElementsByTag("h2").first().getElementsByTag("a").text());

@@ -25,7 +25,7 @@ public class Test2 {
 
         HtmlPage page = null;
         try {
-            page = webClient.getPage("https://krcom.cn/1994516565/episodes/2358773:4380559388909077");//尝试加载上面图片例子给出的网页
+            page = webClient.getPage("https://krcom.cn/6212569431/episodes/2358773:4370785704588272");//尝试加载上面图片例子给出的网页
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -53,7 +53,11 @@ public class Test2 {
         CharSequence charSequence = sb.subSequence(0, r.length() - 13);
         String ch = charSequence.toString();
         r = URLDecoder.decode(ch);
-        System.out.println(r.substring(8, r.length()));
+        r = r.substring(8, r.length());
+
+        String[] all = r.split(",");
+        r = all[all.length - 2] + ",video";
+        System.out.println(r.substring(11, r.length()));
        /* List<Element> infoListEle = document.getElementById("feedCardContent").getElementsByAttributeValue("class", "feed-card-item");//获取元素节点等
         infoListEle.forEach(element -> {
             System.out.println(element.getElementsByTag("h2").first().getElementsByTag("a").text());

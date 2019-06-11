@@ -40,28 +40,23 @@ public class Test2 {
 
         Pattern p = Pattern.compile("fluency=.*action");
         Matcher matcher = p.matcher(pageXml);
-        String r = null;
+        String firstRegex = null;
         while (matcher.find()) {
-            r = matcher.group();
+            firstRegex = matcher.group();
         }
 
         Document document = Jsoup.parse(pageXml);//获取html文档
         String res = document.title().split(" ")[0];
         System.out.println("title:" + res);
 
-        StringBuilder sb = new StringBuilder(r);
-        CharSequence charSequence = sb.subSequence(0, r.length() - 13);
-        String ch = charSequence.toString();
-        r = URLDecoder.decode(ch);
-        r = r.substring(8, r.length());
+        String afterEncode = URLDecoder.decode(firstRegex);
+        Pattern pSecond = Pattern.compile("1080=//fus.cdn.krcom.cn/.*video");
+        Matcher matcherSecond = pSecond.matcher(afterEncode);
+        String r = null;
+        while (matcherSecond.find()) {
+            r = matcherSecond.group();
+        }
+        System.out.println(r.replace("1080=", ""));
 
-        String[] all = r.split(",");
-        r = all[all.length - 2] + ",video";
-        System.out.println(r.substring(11, r.length()));
-       /* List<Element> infoListEle = document.getElementById("feedCardContent").getElementsByAttributeValue("class", "feed-card-item");//获取元素节点等
-        infoListEle.forEach(element -> {
-            System.out.println(element.getElementsByTag("h2").first().getElementsByTag("a").text());
-            System.out.println(element.getElementsByTag("h2").first().getElementsByTag("a").attr("href"));
-        });*/
     }
 }

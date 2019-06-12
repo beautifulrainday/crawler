@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 public class Test2 {
 
     public static void main(String[] args) {
-        final WebClient webClient = new WebClient(BrowserVersion.CHROME);//新建一个模拟谷歌Chrome浏览器的浏览器客户端对象
+        final WebClient webClient = new WebClient(BrowserVersion.FIREFOX_60);//新建一个模拟谷歌Chrome浏览器的浏览器客户端对象
 
         webClient.getOptions().setThrowExceptionOnScriptError(false);//当JS执行出错的时候是否抛出异常, 这里选择不需要
         webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);//当HTTP的状态非200时是否抛出异常, 这里选择不需要
@@ -22,17 +22,17 @@ public class Test2 {
         webClient.getOptions().setCssEnabled(false);//是否启用CSS, 因为不需要展现页面, 所以不需要启用
         webClient.getOptions().setJavaScriptEnabled(true); //很重要，启用JS
         webClient.setAjaxController(new NicelyResynchronizingAjaxController());//很重要，设置支持AJAX
+        webClient.waitForBackgroundJavaScript(30000);//异步JS执行需要耗时,所以这里线程要阻塞30秒,等待异步JS执行结束
 
         HtmlPage page = null;
         try {
-            page = webClient.getPage("https://krcom.cn/6212569431/episodes/2358773:4370785704588272");//尝试加载上面图片例子给出的网页
+            page = webClient.getPage("https://krcom.cn/6212569431/episodes/2358773:4311384947948754");//尝试加载上面图片例子给出的网页
+            Thread.sleep(6000);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             webClient.close();
         }
-
-        webClient.waitForBackgroundJavaScript(30000);//异步JS执行需要耗时,所以这里线程要阻塞30秒,等待异步JS执行结束
 
         String pageXml = page.asXml();//直接将加载完成的页面转换成xml格式的字符串
 

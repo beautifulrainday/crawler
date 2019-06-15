@@ -22,12 +22,13 @@ public class Test2 {
         webClient.getOptions().setCssEnabled(false);//是否启用CSS, 因为不需要展现页面, 所以不需要启用
         webClient.getOptions().setJavaScriptEnabled(true); //很重要，启用JS
         webClient.setAjaxController(new NicelyResynchronizingAjaxController());//很重要，设置支持AJAX
-        webClient.waitForBackgroundJavaScript(30000);//异步JS执行需要耗时,所以这里线程要阻塞30秒,等待异步JS执行结束
+        webClient.getOptions().setTimeout(30000);
 
         HtmlPage page = null;
         try {
-            page = webClient.getPage("https://krcom.cn/6212569431/episodes/2358773:4311384947948754");//尝试加载上面图片例子给出的网页
-            Thread.sleep(6000);
+            page = webClient.getPage("https://krcom.cn/1994516565/episodes/2358773:4380559388909077?sudaref=krcom.cn&display=0&retcode=6102");//尝试加载上面图片例子给出的网页
+            //Thread.sleep(60000);
+            webClient.waitForBackgroundJavaScript(6000);//异步JS执行需要耗时,所以这里线程要阻塞30秒,等待异步JS执行结束
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

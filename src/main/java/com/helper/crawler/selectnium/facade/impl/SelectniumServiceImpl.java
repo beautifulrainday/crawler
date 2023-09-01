@@ -1,21 +1,32 @@
-package com.example.crawler.main;
+package com.helper.crawler.selectnium.facade.impl;
 
+import com.helper.crawler.selectnium.facade.SelectniumFacade;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Test {
-    static List<WebElement> visibleElements;
+/**
+ * @Author zhouxingyu
+ * @Date 2023/8/25 15:59
+ */
+public class SelectniumServiceImpl implements SelectniumFacade {
 
-    public static void main(String[] args) throws Exception {
+    @PostConstruct
+    public void init() {
+        System.out.println("I'm SelectniumServiceImpl ,started...");
+
+    }
+
+    @Override
+    public void handle() {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\zhouxingyu\\Downloads" +
                 "\\chromedriver.exe");
-
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless");
 
@@ -33,8 +44,9 @@ public class Test {
         driver.close();
     }
 
-    public static List<WebElement> getVisibleElements(WebDriver driver, By by) {
-        visibleElements = new ArrayList<>();
+
+    public List<WebElement> getVisibleElements(WebDriver driver, By by) {
+        List<WebElement> visibleElements = new ArrayList<WebElement>();
         List<WebElement> allElements = driver.findElements(by);
         for (WebElement element : allElements) {
             if (element.isDisplayed()) {
@@ -43,5 +55,4 @@ public class Test {
         }
         return visibleElements;
     }
-
 }
